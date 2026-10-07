@@ -1,0 +1,13 @@
+# Virtuális környezet
+venv/
+env/
+
+# Adatbázisok, képek (Ezt semmiképp ne töröld ki!)
+data/
+
+# Python cache fájlok
+__pycache__/
+*.pyc
+
+# Jupyter notebook cache
+.ipynb_checkpoints/
