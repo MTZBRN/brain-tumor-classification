@@ -8,6 +8,7 @@ from skimage.feature import graycomatrix, graycoprops
 def extract_features(img_path, mask_path):
     img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
     mask = cv2.imread(mask_path, cv2.IMREAD_GRAYSCALE)
+    
 
     if mask is None or img is None:
         return None
@@ -28,6 +29,8 @@ def extract_features(img_path, mask_path):
     area = np.sum(mask > 0)
     contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     perimeter = cv2.arcLength(contours[0], True) if len(contours) > 0 else 0
+    moments = cv2.moments(mask)
+    hu_moments = cv2.HuMoments(moments).flatten()
 
     # 2. INTENZITÁS JELLEMZŐK (Intensity features)
     mean_intensity = np.mean(tumor_pixels)
@@ -51,6 +54,13 @@ def extract_features(img_path, mask_path):
         'label': int(label),
         'area': area,
         'perimeter': perimeter,
+        'hu_1': hu_moments[0],
+        'hu_2': hu_moments[1],
+        'hu_3': hu_moments[2],
+        'hu_4': hu_moments[3],
+        'hu_5': hu_moments[4],
+        'hu_6': hu_moments[5],
+        'hu_7': hu_moments[6],
         'mean_intensity': mean_intensity,
         'std_intensity': std_intensity,
         'contrast': contrast,
